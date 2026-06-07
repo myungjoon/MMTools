@@ -58,33 +58,43 @@ prop_output = GMMNLSE_propagate(fiber,input_field,sim);
 sim_time = toc;
 fprintf('Simulation time: %.2f s (%.2f min)\n', sim_time, sim_time/60);
 
+%% Save prop_output
+save_dir = fileparts(mfilename('fullpath'));
+save(fullfile(save_dir, sprintf('prop_output_%dmodes.mat', num_modes)), 'prop_output', '-v7.3');
+
 %% Plot
 % Time
-figure;
+fig1 = figure;
 plot(t,abs(prop_output.fields(:,:,end)).^2,'linewidth',2);
 xlabel('Time (ps)');
 ylabel('Power (W)');
 set(gca,'fontsize',14);
+savefig(fig1, fullfile(save_dir, sprintf('time_%dmodes.fig', num_modes)));
+saveas(fig1, fullfile(save_dir, sprintf('time_%dmodes.png', num_modes)));
 
 % Spectrum
-figure;
+fig2 = figure;
 plot(lambda,abs(fftshift(ifft(prop_output.fields(:,:,end)),1)).^2*c./lambda.^2,'linewidth',2);
 xlabel('\lambda (nm)');
 ylabel('PSD (a.u.)');
 % xlim([1500,1800]);
 set(gca,'fontsize',14);
+savefig(fig2, fullfile(save_dir, sprintf('spectrum_%dmodes.fig', num_modes)));
+saveas(fig2, fullfile(save_dir, sprintf('spectrum_%dmodes.png', num_modes)));
 
 % Comparison of time
-figure;
+fig3 = figure;
 [x,y] = meshgrid(t,prop_output.z);
 pcolor(x,y,permute(abs(prop_output.fields(:,1,:)).^2,[3 1 2]));
 shading interp; colormap(jet);
 xlabel('Time (ps)');
 ylabel('Propagation distance (m)');
 set(gca,'fontsize',14);
+savefig(fig3, fullfile(save_dir, sprintf('time_evolution_%dmodes.fig', num_modes)));
+saveas(fig3, fullfile(save_dir, sprintf('time_evolution_%dmodes.png', num_modes)));
 
 % Comparison of spectra
-figure;
+fig4 = figure;
 [x,y] = meshgrid((f-sim.f0),prop_output.z(2:end));
 tmp = 10*log10(permute(abs(fftshift(ifft(prop_output.fields(:,1,2:end)),1)).^2,[3 1 2])); tmp = tmp - max(tmp(:));
 pcolor(x,y,tmp);
@@ -92,3 +102,5 @@ shading interp; colormap(jet); caxis([-20,0]);
 xlabel('\Deltaf (THz)');
 ylabel('Propagation distance (m)');
 set(gca,'fontsize',14);
+savefig(fig4, fullfile(save_dir, sprintf('spectrum_evolution_%dmodes.fig', num_modes)));
+saveas(fig4, fullfile(save_dir, sprintf('spectrum_evolution_%dmodes.png', num_modes)));
