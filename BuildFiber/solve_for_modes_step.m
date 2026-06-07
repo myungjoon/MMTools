@@ -14,7 +14,7 @@ clearvars; close all;
 Nf = 20; % number of frequency points at which the modes will be calculated; usually 20
 wavelength0 = 1550e-9; % center wavelength, in m
 freq_range = 50; % THz; frequency range, in THz. If 0, only the center wavelength will be used. Usually 100 THz.
-num_modes = 30; % number of modes to compute; you can use a large number, since this code can find the maximum supported modes itself
+num_modes = 50; % number of modes to compute; you can use a large number, since this code can find the maximum supported modes itself
 include_cladding_modes = false;
 
 radius = 105.0/2;
