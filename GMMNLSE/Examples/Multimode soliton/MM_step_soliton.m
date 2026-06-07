@@ -37,7 +37,7 @@ Nt = 2^12; % the number of time points
 time_window = 50; % ps
 dt = time_window/Nt;
 f = sim.f0+(-Nt/2:Nt/2-1)'/(Nt*dt); % THz
-t = (-Nt*1/5:Nt*4/5-1)'*dt; % ps
+t = (-Nt/2:Nt/2-1)'*dt; % ps
 c = 299792458; % m/s
 lambda = c./(f*1e12)*1e9; % nm
 
