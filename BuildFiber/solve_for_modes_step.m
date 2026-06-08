@@ -13,15 +13,15 @@ clearvars; close all;
 % Frequency window
 Nf = 20; % number of frequency points at which the modes will be calculated; usually 20
 wavelength0 = 1550e-9; % center wavelength, in m
-freq_range = 50; % THz; frequency range, in THz. If 0, only the center wavelength will be used. Usually 100 THz.
+freq_range = 100; % THz; frequency range, in THz. If 0, only the center wavelength will be used. Usually 100 THz.
 num_modes = 50; % number of modes to compute; you can use a large number, since this code can find the maximum supported modes itself
 include_cladding_modes = false;
 
 radius = 105.0/2;
 
 % Spatial profile
-Nx = 400; % number of spatial grid points
-spatial_window = 3*radius; % full spatial window size, in um, usually set to 100 um
+Nx = 512; % number of spatial grid points
+spatial_window = 4*radius; % full spatial window size, in um, usually set to 100 um
 
 
 use_fiber_collection = false; % use fibers in "/helpers/fiber_collections.m"

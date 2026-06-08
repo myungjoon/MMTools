@@ -13,7 +13,7 @@ fiber.S_tensors_filename = 'S_tensors_10modes.mat';
 %% Setup fiber parameters
 sim.lambda0 = 1550e-9; % the central wavelength
 sim.pulse_centering = false;
-sim.midx = 1:2; % use two spatial modes for fast demonstration; users are free to try more
+sim.midx = 1:5; % use two spatial modes for fast demonstration; users are free to try more
 sim.gpu_yes = true; % make it "false" to test CPU
 
 % Load default parameters like 
@@ -32,8 +32,8 @@ fiber.L0 = 10; % m
 sim.save_period = fiber.L0/num_save;
 
 %% Setup general parameters
-Nt = 2^11; % the number of time points
-time_window = 50; % ps
+Nt = 2^12; % the number of time points
+time_window = 100; % ps
 dt = time_window/Nt;
 f = sim.f0+(-Nt/2:Nt/2-1)'/(Nt*dt); % THz
 t = (-Nt/2:Nt/2-1)'*dt; % ps
@@ -41,7 +41,7 @@ c = 299792458; % m/s
 lambda = c./(f*1e12)*1e9; % nm
 
 %% Initial condition
-total_energy = 5; % nJ
+total_energy = 10; % nJ
 tfwhm = 0.5; % ps
 input_field = build_MMgaussian(tfwhm, time_window, total_energy, length(sim.midx), Nt, {'ifft',0}, ones(1,length(sim.midx)), -time_window/2*0.4);
 input_field.fields = input_field.fields.*exp(1i*2*pi*rand(1,length(sim.midx)));
@@ -62,7 +62,7 @@ figure;
 plot(lambda,abs(fftshift(ifft(prop_output.fields(:,:,end)),1)).^2*c./lambda.^2,'linewidth',2);
 xlabel('\lambda (nm)');
 ylabel('PSD (a.u.)');
-xlim([1500,1700]);
+% xlim([1500,1700]);
 set(gca,'fontsize',14);
 
 % Comparison of time
